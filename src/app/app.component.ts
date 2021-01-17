@@ -10,6 +10,7 @@ import { PostsService } from './post.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching: boolean = false;
+  error = null;
   
   @ViewChild('postForm') postForm;
 
@@ -27,6 +28,9 @@ export class AppComponent implements OnInit {
     .subscribe(() => {
       this.fetchPosts();
       this.clearForm();
+    },
+    error => {
+      this.error = error.message;
     });
   }
 
@@ -40,6 +44,9 @@ export class AppComponent implements OnInit {
     this.postService.deletePosts()
       .subscribe(() => {
         this.loadedPosts = [];
+      },
+      error => {
+        this.error = error.message;
       })
   }
 
@@ -49,6 +56,9 @@ export class AppComponent implements OnInit {
       .subscribe(posts => {
         this.loadedPosts = posts;
         this.isFetching = false;
+      },
+      error => {
+        this.error = error.message;
       });
   }
 
