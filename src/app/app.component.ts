@@ -66,4 +66,8 @@ export class AppComponent implements OnInit {
     this.postForm.reset();
   }
 
+  onHandleError() {
+    this.error = null;
+    this.isFetching = false;
+  }
 }
