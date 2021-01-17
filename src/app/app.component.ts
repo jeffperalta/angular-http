@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Post } from './post.model';
 import { PostsService } from './post.service';
 
@@ -10,6 +10,8 @@ import { PostsService } from './post.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching: boolean = false;
+  
+  @ViewChild('postForm') postForm;
 
   constructor(
     private postService: PostsService
@@ -21,17 +23,24 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.postService.createAndStorePost(postData.content, postData.content);
+    this.postService.createAndStorePost(postData.title, postData.content)
+    .subscribe(() => {
+      this.fetchPosts();
+      this.clearForm();
+    });
   }
 
   onFetchPosts() {
     // Send Http request
-    this.postService.fetchPosts();
+    this.fetchPosts();
   }
 
   onClearPosts() {
     // Send Http request
-    this.fetchPosts();
+    this.postService.deletePosts()
+      .subscribe(() => {
+        this.loadedPosts = [];
+      })
   }
 
   private fetchPosts() {
@@ -41,6 +50,10 @@ export class AppComponent implements OnInit {
         this.loadedPosts = posts;
         this.isFetching = false;
       });
+  }
+
+  private clearForm() {
+    this.postForm.reset();
   }
 
 }

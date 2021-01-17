@@ -16,12 +16,10 @@ export class PostsService {
 
     createAndStorePost(title: string, content: string) {
         const postData: Post = { title, content };
-        this.http.post<{ name: string }>(
+        return this.http.post<{ name: string }>(
             this.URL
             , postData
-        ).subscribe(response => {
-            console.log(response)
-        });
+        )
     }
 
     fetchPosts() {
@@ -37,6 +35,10 @@ export class PostsService {
                     return postArray;
                 })
             )
+    }
+
+    deletePosts() {
+        return this.http.delete(this.URL);
     }
 
 }
