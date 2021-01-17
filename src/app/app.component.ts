@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: Post) {
     // Send Http request
     this.postService.createAndStorePost(postData.title, postData.content)
-    .subscribe(() => {
+    .subscribe((response) => {
+      console.log(response);
       this.fetchPosts();
       this.clearForm();
     },
