@@ -53,7 +53,8 @@ export class PostsService {
 
     deletePosts() {
         return this.http.delete(this.URL, {
-            observe: "events"
+            observe: "events",
+            //responseType: 'json' //'text'
         }).pipe(
             tap(event => { 
                 if (event.type === HttpEventType.Sent) {
