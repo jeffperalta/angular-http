@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Post } from './post.model';
 import { map } from 'rxjs/operators';
 
@@ -23,12 +23,16 @@ export class PostsService {
     }
 
     fetchPosts() {
+        let searchParams = new HttpParams();
+        searchParams = searchParams.append('print', 'pretty');
+
         return this.http.get<{ [key: string]: Post }>(
             this.URL,
             {
                 headers: new HttpHeaders({
                     "Custom-Header": "A custom header value"
-                })
+                }),
+                params: searchParams
             }
         ).pipe(
             map(data => {
